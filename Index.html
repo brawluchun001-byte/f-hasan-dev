@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>F.Hasan.dev — Cosmic System</title>
+
+<meta
+name="description"
+content="F.Hasan.dev — KosmoLab, AI systems and software experiments."
+>
+
+<style>
+
+:root{
+    --bg:#07070a;
+    --surface:#0e0d12;
+    --cosmic:#23212C;
+    --cosmic2:#2b2935;
+    --text:#f3f1ed;
+    --muted:#8d8993;
+    --dim:#56525d;
+    --line:rgba(255,255,255,.08);
+    --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    overflow-x:hidden;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    pointer-events:none;
+}
+
+
+/* =========================
+   NAV
+========================= */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:20;
+
+    height:72px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 28px;
+
+    background:rgba(7,7,10,.6);
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid var(--line);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    font-size:14px;
+    font-weight:600;
+}
+
+.logo-box{
+    width:34px;
+    height:34px;
+
+    display:grid;
+    place-items:center;
+
+    background:var(--cosmic);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    font-size:10px;
+    font-weight:700;
+}
+
+.nav-links{
+    display:flex;
+    gap:28px;
+
+    color:var(--muted);
+    font-size:13px;
+}
+
+.nav-links a{
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    position:relative;
+    z-index:2;
+
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:100px 20px 60px;
+
+    text-align:center;
+}
+
+.hero-content{
+    width:min(900px,100%);
+}
+
+.kicker{
+    color:var(--dim);
+
+    font-size:10px;
+    letter-spacing:.28em;
+
+    text-transform:uppercase;
+
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(55px,9vw,110px);
+
+    line-height:.88;
+
+    letter-spacing:-.075em;
+
+    font-weight:500;
+}
+
+.hero h1 span{
+    color:#7d7885;
+}
+
+.hero p{
+    max-width:570px;
+
+    margin:28px auto 0;
+
+    color:var(--muted);
+
+    font-size:16px;
+    line-height:1.75;
+}
+
+.scroll-hint{
+    margin-top:38px;
+
+    color:#65616c;
+
+    font-size:9px;
+
+    letter-spacing:.2em;
+
+    text-transform:uppercase;
+}
+
+
+/* =========================
+   BLACK HOLE AREA
+========================= */
+
+.blackhole-area{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:420px;
+    height:420px;
+
+    pointer-events:none;
+}
+
+.blackhole{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:170px;
+    height:170px;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:#000;
+
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.08),
+        0 0 70px rgba(35,33,44,.7),
+        inset 0 0 35px rgba(255,255,255,.04);
+
+    z-index:3;
+}
+
+.blackhole::before{
+    content:"";
+
+    position:absolute;
+    inset:-25px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.blackhole::after{
+    content:"";
+
+    position:absolute;
+    left:50%;
+    top:50%;
+
+    width:42px;
+    height:42px;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:#000;
+
+    box-shadow:0 0 30px #000;
+}
+
+.hole-ring{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:290px;
+    height:95px;
+
+    transform:
+        translate(-50%,-50%)
+        rotate(-14deg);
+
+    border-radius:50%;
+
+    border:1px solid rgba(160,155,170,.15);
+
+    box-shadow:
+        0 0 35px rgba(90,84,102,.14);
+
+    z-index:2;
+
+    animation:
+        ringPulse 5s ease-in-out infinite;
+}
+
+@keyframes ringPulse{
+
+    0%,100%{
+        transform:
+            translate(-50%,-50%)
+            rotate(-14deg)
+            scaleX(1);
+    }
+
+    50%{
+        transform:
+            translate(-50%,-50%)
+            rotate(-14deg)
+            scaleX(1.08);
+    }
+}
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+.project{
+    position:absolute;
+
+    z-index:5;
+
+    width:145px;
+
+    transform:translate(-50%,-50%);
+
+    cursor:pointer;
+
+    pointer-events:auto;
+}
+
+.project-card{
+    padding:16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(35,33,44,.88),
+            rgba(12,12,16,.9)
+        );
+
+    border:1px solid var(--line);
+
+    backdrop-filter:blur(12px);
+
+    transition:
+        transform .35s var(--ease),
+        border-color .35s,
+        background .35s;
+}
+
+.project:hover .project-card{
+
+    transform:translateY(-6px);
+
+    border-color:rgba(255,255,255,.2);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(45,42,56,.95),
+            rgba(12,12,16,.95)
+        );
+}
+
+.project small{
+    color:var(--dim);
+
+    font-size:9px;
+
+    letter-spacing:.15em;
+}
+
+.project h3{
+    margin-top:9px;
+
+    font-size:16px;
+
+    letter-spacing:-.03em;
+}
+
+.project p{
+    margin-top:5px;
+
+    color:#67636d;
+
+    font-size:10px;
+}
+
+
+/* positions */
+
+.p1{
+    left:50%;
+    top:4%;
+}
+
+.p2{
+    left:96%;
+    top:38%;
+}
+
+.p3{
+    left:78%;
+    top:90%;
+}
+
+.p4{
+    left:22%;
+    top:90%;
+}
+
+.p5{
+    left:4%;
+    top:38%;
+}
+
+
+/* =========================
+   SECOND SECTION
+========================= */
+
+.section{
+    position:relative;
+    z-index:3;
+
+    min-height:100vh;
+
+    padding:150px 24px;
+
+    border-top:1px solid var(--line);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(7,7,10,.82),
+            rgba(7,7,10,.98)
+        );
+}
+
+.container{
+    width:min(1150px,100%);
+    margin:auto;
+}
+
+.section-label{
+    color:var(--dim);
+
+    font-size:10px;
+
+    letter-spacing:.22em;
+
+    text-transform:uppercase;
+
+    margin-bottom:32px;
+}
+
+.section-title{
+    max-width:850px;
+
+    font-size:clamp(42px,6vw,78px);
+
+    line-height:.95;
+
+    letter-spacing:-.065em;
+
+    font-weight:500;
+}
+
+.section-title span{
+    color:#706b77;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.cards{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:16px;
+
+    margin-top:80px;
+}
+
+.card{
+    min-height:390px;
+
+    padding:34px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(35,33,44,.7),
+            rgba(10,10,13,.92)
+        );
+
+    border:1px solid var(--line);
+
+    transition:
+        transform .5s var(--ease),
+        border-color .4s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+
+    border-color:
+        rgba(255,255,255,.18);
+}
+
+.card-number{
+    color:#57535e;
+
+    font-size:10px;
+
+    letter-spacing:.16em;
+}
+
+.card h3{
+    margin-top:120px;
+
+    font-size:34px;
+
+    letter-spacing:-.05em;
+}
+
+.card p{
+    max-width:460px;
+
+    margin-top:16px;
+
+    color:var(--muted);
+
+    font-size:15px;
+
+    line-height:1.75;
+}
+
+.status{
+    display:inline-block;
+
+    margin-top:28px;
+
+    padding:7px 10px;
+
+    border:1px solid var(--line);
+
+    color:#77727e;
+
+    font-size:9px;
+
+    letter-spacing:.13em;
+
+    text-transform:uppercase;
+}
+
+
+/* =========================
+   GITHUB INFO
+========================= */
+
+.github-meta{
+    margin-top:28px;
+
+    display:flex;
+    gap:9px;
+
+    flex-wrap:wrap;
+}
+
+.meta{
+    padding:7px 10px;
+
+    border:1px solid var(--line);
+
+    color:#77727f;
+
+    font-size:9px;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
+}
+
+
+/* =========================
+   AI PLATFORM
+========================= */
+
+.progress-list{
+    margin-top:35px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:13px;
+}
+
+.progress-row{
+    display:flex;
+
+    justify-content:space-between;
+
+    padding-bottom:12px;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+    font-size:12px;
+
+    color:#85808c;
+}
+
+.progress-row strong{
+    color:#d3d0d5;
+
+    font-weight:500;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    position:relative;
+    z-index:4;
+
+    padding:35px 24px;
+
+    border-top:1px solid var(--line);
+
+    background:#07070a;
+
+    color:#55515c;
+
+    font-size:11px;
+}
+
+.footer-inner{
+    width:min(1150px,100%);
+    margin:auto;
+
+    display:flex;
+    justify-content:space-between;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:750px){
+
+    .nav{
+        padding:0 16px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        min-height:100vh;
+    }
+
+    .blackhole-area{
+        width:330px;
+        height:330px;
+    }
+
+    .blackhole{
+        width:130px;
+        height:130px;
+    }
+
+    .hole-ring{
+        width:220px;
+        height:72px;
+    }
+
+    .project{
+        width:110px;
+    }
+
+    .project-card{
+        padding:12px;
+    }
+
+    .project h3{
+        font-size:13px;
+    }
+
+    .project p{
+        font-size:9px;
+    }
+
+    .p1{
+        top:2%;
+    }
+
+    .p2{
+        left:94%;
+    }
+
+    .p4{
+        left:6%;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        min-height:320px;
+        padding:25px;
+    }
+
+    .card h3{
+        margin-top:85px;
+    }
+
+    .section{
+        padding:110px 18px;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+        gap:8px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<canvas id="space"></canvas>
+
+
+<nav>
+
+    <a class="logo" href="#top">
+
+        <div class="logo-box">
+            FH
+        </div>
+
+        F.Hasan.dev
+
+    </a>
+
+    <div class="nav-links">
+        <a href="#system">System</a>
+        <a href="#lab">Lab</a>
+        <a href="#ai">AI</a>
+    </div>
+
+</nav>
+
+
+<section class="hero" id="top">
+
+    <div class="hero-content">
+
+        <div class="kicker">
+            F.Hasan.dev / Cosmic System
+        </div>
+
+        <h1>
+            Ideas have<br>
+            <span>gravity.</span>
+        </h1>
+
+        <p>
+            Explore the projects around the system.
+            Each idea is pulled toward the work that matters.
+        </p>
+
+        <div class="scroll-hint">
+            ↓ scroll to enter the laboratory
+        </div>
+
+    </div>
+
+
+    <div class="blackhole-area" id="system">
+
+        <div class="hole-ring"></div>
+
+        <div class="blackhole"></div>
+
+
+        <div class="project p1" data-project="KosmoLab">
+            <div class="project-card">
+                <small>001 / MAIN</small>
+                <h3>KosmoLab</h3>
+                <p>Technology laboratory</p>
+            </div>
+        </div>
+
+
+        <div class="project p2" data-project="HasanAI">
+            <div class="project-card">
+                <small>002 / AI</small>
+                <h3>HasanAI</h3>
+                <p>Offline AI system</p>
+            </div>
+        </div>
+
+
+        <div class="project p3" data-project="Android Lab">
+            <div class="project-card">
+                <small>003 / MOBILE</small>
+                <h3>Android Lab</h3>
+                <p>Experiments</p>
+            </div>
+        </div>
+
+
+        <div class="project p4" data-project="C++ Lab">
+            <div class="project-card">
+                <small>004 / SYSTEMS</small>
+                <h3>C++ Lab</h3>
+                <p>Engineering</p>
+            </div>
+        </div>
+
+
+        <div class="project p5" data-project="Experiments">
+            <div class="project-card">
+                <small>005 / IDEAS</small>
+                <h3>Experiments</h3>
+                <p>Prototypes</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section" id="lab">
+
+<div class="container">
+
+    <div class="section-label">
+        01 / Publishing
+    </div>
+
+    <h2 class="section-title">
+        The system becomes<br>
+        <span>public.</span>
+    </h2>
+
+
+    <div class="cards">
+
+
+        <article class="card">
+
+            <div class="card-number">
+                GITHUB / PAGES
+            </div>
+
+            <h3>
+                GitHub Pages
+            </h3>
+
+            <p>
+                This portfolio is designed as a static website
+                that can be published directly from a GitHub
+                repository. Later, the default GitHub Pages
+                address can be replaced with a custom domain.
+            </p>
+
+            <div class="github-meta">
+                <span class="meta">PUBLIC</span>
+                <span class="meta">STATIC</span>
+                <span class="meta">HTTPS</span>
+            </div>
+
+            <span class="status">
+                READY FOR DEPLOYMENT
+            </span>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-number">
+                KOSMOLAB / DIRECTION
+            </div>
+
+            <h3>
+                One place.
+            </h3>
+
+            <p>
+                KosmoLab becomes the central identity:
+                experiments, projects, software and future
+                systems all connect back to one laboratory.
+            </p>
+
+            <span class="status">
+                CORE IDENTITY
+            </span>
+
+        </article>
+
+
+    </div>
+
+</div>
+
+</section>
+
+
+<section class="section" id="ai">
+
+<div class="container">
+
+    <div class="section-label">
+        02 / In Development
+    </div>
+
+    <h2 class="section-title">
+        Building an<br>
+        <span>AI platform.</span>
+    </h2>
+
+
+    <div class="cards">
+
+
+        <article class="card">
+
+            <div class="card-number">
+                AI PLATFORM
+            </div>
+
+            <h3>
+                From experiment
+                to platform.
+            </h3>
+
+            <p>
+                The AI direction is being built step by step:
+                model logic, memory, interaction, interfaces
+                and eventually a complete platform around the
+                system.
+            </p>
+
+            <span class="status">
+                IN DEVELOPMENT
+            </span>
+
+        </article>
+
+
+        <article class="card">
+
+            <div class="card-number">
+                CURRENT DIRECTION
+            </div>
+
+            <div class="progress-list">
+
+                <div class="progress-row">
+                    <span>Core AI</span>
+                    <strong>Building</strong>
+                </div>
+
+                <div class="progress-row">
+                    <span>Memory</span>
+                    <strong>Building</strong>
+                </div>
+
+                <div class="progress-row">
+                    <span>Semantic Layer</span>
+                    <strong>Exploring</strong>
+                </div>
+
+                <div class="progress-row">
+                    <span>Platform UI</span>
+                    <strong>Next</strong>
+                </div>
+
+                <div class="progress-row">
+                    <span>Public Release</span>
+                    <strong>Future</strong>
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</div>
+
+</section>
+
+
+<footer>
+
+    <div class="footer-inner">
+
+        <span>F.Hasan.dev</span>
+
+        <span>KosmoLab · 2026</span>
+
+    </div>
+
+</footer>
+
+
+<script>
+  /* =========================================================
+   COSMIC PARTICLE GRAVITY
+========================================================= */
+
+const canvas = document.getElementById("space");
+const ctx = canvas.getContext("2d");
+
+let W = 0;
+let H = 0;
+
+const DPR =
+    Math.min(window.devicePixelRatio || 1, 2);
+
+const particles = [];
+
+const PARTICLE_COUNT = 950;
+
+
+/* =========================
+   RESIZE
+========================= */
+
+function resize(){
+
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
+
+    ctx.setTransform(
+        DPR,0,0,DPR,0,0
+    );
+}
+
+
+/* =========================
+   CREATE 3D PARTICLES
+========================= */
+
+function createParticles(){
+
+    particles.length = 0;
+
+    for(let i = 0; i < PARTICLE_COUNT; i++){
+
+        const angle =
+            Math.random() *
+            Math.PI * 2;
+
+        const radius =
+            90 +
+            Math.random() * 550;
+
+        particles.push({
+
+            angle,
+
+            radius,
+
+            z:
+                Math.random() * 1.8
+                - .9,
+
+            speed:
+                .0008 +
+                Math.random() * .0017,
+
+            size:
+                .45 +
+                Math.random() * 1.8,
+
+            alpha:
+                .12 +
+                Math.random() * .65,
+
+            pull:
+                .25 +
+                Math.random() * .8
+
+        });
+
+    }
+
+}
+
+
+/* =========================
+   DRAW
+========================= */
+
+let time = 0;
+
+function draw(){
+
+    time += .016;
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /*
+       Black-hole center moves
+       slightly with scroll.
+    */
+
+    const scroll =
+        window.scrollY || 0;
+
+    const heroHeight =
+        window.innerHeight;
+
+    const scrollProgress =
+        Math.min(
+            scroll / heroHeight,
+            1
+        );
+
+
+    const cx =
+        W / 2;
+
+    const cy =
+        H / 2
+        - scrollProgress * 90;
+
+
+    for(const p of particles){
+
+        /*
+           Gravitational acceleration.
+        */
+
+        const gravity =
+            0.004 +
+            (1 /
+            Math.max(p.radius,70))
+            * p.pull;
+
+
+        p.radius -= gravity;
+
+
+        /*
+           Circular orbit.
+        */
+
+        p.angle +=
+            p.speed *
+            (
+                1 +
+                120 /
+                Math.max(p.radius,40)
+            );
+
+
+        /*
+           Rebirth after crossing
+           event horizon.
+        */
+
+        if(p.radius < 42){
+
+            p.radius =
+                300 +
+                Math.random() * 650;
+
+            p.angle =
+                Math.random() *
+                Math.PI * 2;
+
+            p.z =
+                Math.random() * 1.8
+                - .9;
+
+        }
+
+
+        /*
+           3D orbit distortion.
+        */
+
+        const depth =
+            1 /
+            (1 + p.z * .7);
+
+
+        const rx =
+            Math.cos(p.angle)
+            * p.radius
+            * depth;
+
+        const ry =
+            Math.sin(p.angle)
+            * p.radius
+            * .42
+            * depth;
+
+
+        const x =
+            cx + rx;
+
+        const y =
+            cy + ry;
+
+
+        /*
+           Particles become brighter
+           close to the black hole.
+        */
+
+        const distance =
+            Math.abs(p.radius);
+
+        const near =
+            Math.max(
+                0,
+                1 -
+                distance / 260
+            );
+
+
+        const size =
+            p.size *
+            (1 + near * 2.1);
+
+
+        const alpha =
+            p.alpha *
+            (0.55 + near * 0.75);
+
+
+        /*
+           Small motion streak.
+        */
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `rgba(
+                210,
+                204,
+                218,
+                ${alpha}
+            )`;
+
+        ctx.fill();
+
+
+        /*
+           Inner gravitational
+           streaks.
+        */
+
+        if(
+            p.radius < 145 &&
+            Math.random() < .08
+        ){
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x,
+                y
+            );
+
+            ctx.lineTo(
+                x -
+                Math.cos(p.angle) * 14,
+
+                y -
+                Math.sin(p.angle) * 6
+            );
+
+            ctx.strokeStyle =
+                `rgba(
+                    160,
+                    154,
+                    170,
+                    ${alpha * .35}
+                )`;
+
+            ctx.lineWidth =
+                .7;
+
+            ctx.stroke();
+        }
+
+    }
+
+
+    /*
+       Subtle center shadow.
+    */
+
+    const gradient =
+        ctx.createRadialGradient(
+            cx,
+            cy,
+            20,
+            cx,
+            cy,
+            240
+        );
+
+    gradient.addColorStop(
+        0,
+        "rgba(0,0,0,.96)"
+    );
+
+    gradient.addColorStop(
+        .28,
+        "rgba(0,0,0,.75)"
+    );
+
+    gradient.addColorStop(
+        .62,
+        "rgba(0,0,0,.12)"
+    );
+
+    gradient.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+    ctx.fillStyle =
+        gradient;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        cx,
+        cy,
+        245,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    requestAnimationFrame(
+        draw
+    );
+}
+
+
+/* =========================
+   PROJECT SUCTION
+========================= */
+
+const projectNodes =
+    document.querySelectorAll(".project");
+
+const blackHole =
+    document.querySelector(".blackhole");
+
+projectNodes.forEach(node => {
+
+    node.addEventListener(
+        "click",
+        () => {
+
+            const rect =
+                node.getBoundingClientRect();
+
+            const dx =
+                window.innerWidth / 2
+                -
+                (
+                    rect.left +
+                    rect.width / 2
+                );
+
+            const dy =
+                window.innerHeight / 2
+                -
+                (
+                    rect.top +
+                    rect.height / 2
+                );
+
+
+            node.style.transition =
+                "transform 1.15s cubic-bezier(.16,1,.3,1), opacity .9s";
+
+
+            node.style.transform =
+                `
+                translate(
+                    calc(-50% + ${dx}px),
+                    calc(-50% + ${dy}px)
+                )
+                scale(.04)
+                rotate(20deg)
+                `;
+
+
+            node.style.opacity = "0";
+
+
+            blackHole.animate(
+                [
+                    {
+                        transform:
+                            "translate(-50%,-50%) scale(1)"
+                    },
+
+                    {
+                        transform:
+                            "translate(-50%,-50%) scale(1.18)"
+                    },
+
+                    {
+                        transform:
+                            "translate(-50%,-50%) scale(1)"
+                    }
+                ],
+                {
+                    duration:1100,
+                    easing:
+                        "cubic-bezier(.16,1,.3,1)"
+                }
+            );
+
+        }
+    );
+
+});
+
+
+/* =========================
+   SCROLL DEPTH EFFECT
+========================= */
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        const progress =
+            Math.min(
+                window.scrollY /
+                window.innerHeight,
+                1
+            );
+
+
+        const hero =
+            document.querySelector(".hero");
+
+        const blackHoleArea =
+            document.querySelector(".blackhole-area");
+
+
+        hero.style.opacity =
+            1 -
+            progress * .9;
+
+
+        blackHoleArea.style.transform =
+            `
+            translate(-50%,-50%)
+            scale(${1 - progress * .15})
+            `;
+    },
+    { passive:true }
+);
+
+
+/* =========================
+   START
+========================= */
+
+resize();
+createParticles();
+draw();
+
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        resize();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
